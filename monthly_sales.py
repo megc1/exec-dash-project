@@ -12,7 +12,7 @@ import os #referenced Prof. Rossetti's notes on os module (https://github.com/pr
 def to_usd(price):
     return"${0:, .2f}".format(price)
 
-#month_lookup function based on sales-reporting exercise (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/6d21451ea2d8f992fb067d28ccb37ce37219017d/exercises/sales-reporting/pandas_explore.py)
+#month_lookup function and CSV file lookup based on sales-reporting exercise (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/6d21451ea2d8f992fb067d28ccb37ce37219017d/exercises/sales-reporting/pandas_explore.py)
 def month_lookup(month):
 	month_MM={'01':'January','02':'February','03':'March','04':'April',
 	'05':'May','06':'June','07':'July','08':'August','09':'September','10':'October',
@@ -21,6 +21,10 @@ def month_lookup(month):
 
 get_month = input("Which month's sales data would you like to view? Please enter in MM format.")
 get_year = input("For which year? Please enter in YYYY format.")
+
+
+CSV_FILENAME = "sales-"+"get_month"+"get_year"+ ".csv"
+CSV_FILEPATH = os.path.join("data", CSV_FILENAME)
 
 # 
 
