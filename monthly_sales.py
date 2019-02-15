@@ -11,7 +11,12 @@ import os #referenced Prof. Rossetti's notes on os module (https://github.com/pr
 
 def to_usd(price):
     return"${0:, .2f}".format(price)
-    
+
+months_dict = {"01": "January", "02": "February", "03": "March", "04": "April", "05": "May", "06": "June", "07": "July", "08": "August", "09": "September", "10": "October", "11": "November", "12": "December"}
+
+
+# 
+
 print("-----------------------")
 print("MONTH: March 2018") #To Do: get actual month/year
 
