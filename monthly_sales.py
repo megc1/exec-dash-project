@@ -7,7 +7,11 @@ import os #referenced Prof. Rossetti's notes on os module (https://github.com/pr
 
 
 # TODO: write some Python code here to produce the desired functionality...
+#used Prof. Rossetti's starter code to convert to USD format (https://github.com/s2t2/exec-dash-starter-py/commit/525446a5850d211bb78dfe1cb3ffb42ea4b3c9ad)
 
+def to_usd(price):
+    return"${0:, .2f}".format(price)
+    
 print("-----------------------")
 print("MONTH: March 2018") #To Do: get actual month/year
 
