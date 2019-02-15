@@ -24,24 +24,21 @@ def month_lookup(month):
 get_month = input("Which month's sales data would you like to view? Please enter in MM format. ")
 get_year = input("For which year? Please enter in YYYY format. ")
 
+#try/except to check for valid input values (used https://www.pythonforbeginners.com/error-handling/python-try-and-except)
+#except error type found on Stack Overflow: https://stackoverflow.com/questions/28633555/how-to-handle-filenotfounderror-when-try-except-ioerror-does-not-catch-it
 #Also based on sales-reporting exercise (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/6d21451ea2d8f992fb067d28ccb37ce37219017d/exercises/sales-reporting/pandas_explore.py)
-CSV_FILENAME = "sales-"+"get_month"+"get_year"+ ".csv"
-CSV_FILEPATH = os.path.join("data/", CSV_FILENAME)
+try: 
+    CSV_FILENAME = "sales-"+ get_month + get_year+ ".csv"
+    CSV_FILEPATH = os.path.join(os.path.dirname(__file__), "data", CSV_FILENAME)
+    sales_data = pd.read_csv(CSV_FILEPATH)
 
-#Check file validity (if it is there)
-#Used: https://www.cyberciti.biz/faq/python-file-exists-examples/
-Valid_file = os.path.isfile(CSV_FILEPATH)
-if Valid_file == False:
-    print("The file you're looking for doesn't seem to be there. Please check that a correctly titled file exists in the data folder and try again!")
-#code to process file
-else:
-    monthlydata = pd.read_csv(CSV_FILEPATH)
+
 
 #Sort products
 #Referenced same exec dash starter code as well as https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.groupby.html
-total_sales = monthlydata["sales price"].sum()
+sales_total = sales_data["sales price"].sum()
 
-numproducts = monthlydata.groupby(["product"]).sum()
+numproducts = sales_data.groupby(["product"]).sum()
 
 numproducts = numproducts.sort_values("sales price", ascending=False)
 
@@ -55,7 +52,25 @@ for i, row in numproducts.iterrows():
  
 product_names_list = [p["name"] for p in top_sold]
 product_sales_sorted = [p["monthly_sales"] for p in top_sold]
-bar_labels = [to_usd(p["monthly_sales"]) for p in told_sold]
+bar_labels = [to_usd(p["monthly_sales"]) for p in top_sold]
+
+#TODO: print bar chart
+data = [
+    graph_objs.Bar(
+        x = product_sales_sorted,
+        y = product_names_list,
+        orientation = "h",
+        text=bar_labels,
+        textposition="auto",
+        hoverinfo="text"
+
+    )
+]
+
+name_chart = "Top "
+#TODO: edit formatting
+
+
 
 print("-----------------------")
 print("MONTH: March 2018") #To Do: get actual month/year
@@ -78,3 +93,6 @@ print("-----------------------")
 print("VISUALIZING THE DATA...")
 
 #To do: add bar chart of top sellers
+
+except OSError:
+    print("The file you're looking for doesn't seem to be there. Please check that a correctly titled file exists in the data folder and try again!")
