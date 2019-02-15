@@ -21,12 +21,12 @@ def month_lookup(month):
 	return month_MM[month]
 
 #User inputs for month and year to get file and import file
-get_month = input("Which month's sales data would you like to view? Please enter in MM format.")
-get_year = input("For which year? Please enter in YYYY format.")
+get_month = input("Which month's sales data would you like to view? Please enter in MM format. ")
+get_year = input("For which year? Please enter in YYYY format. ")
 
 #Also based on sales-reporting exercise (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/6d21451ea2d8f992fb067d28ccb37ce37219017d/exercises/sales-reporting/pandas_explore.py)
 CSV_FILENAME = "sales-"+"get_month"+"get_year"+ ".csv"
-CSV_FILEPATH = os.path.join("data", CSV_FILENAME)
+CSV_FILEPATH = os.path.join("data/", CSV_FILENAME)
 
 #Check file validity (if it is there)
 #Used: https://www.cyberciti.biz/faq/python-file-exists-examples/
@@ -36,9 +36,26 @@ if Valid_file == False:
 #code to process file
 else:
     monthlydata = pd.read_csv(CSV_FILEPATH)
-#Sort products
 
-# 
+#Sort products
+#Referenced same exec dash starter code as well as https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.groupby.html
+total_sales = monthlydata["sales price"].sum()
+
+numproducts = monthlydata.groupby(["product"]).sum()
+
+numproducts = numproducts.sort_values("sales price", ascending=False)
+
+#Referenced same exec dash starter code (https://github.com/s2t2/exec-dash-starter-py/blob/master/monthly_sales.py)
+top_sold = []
+ranking = 1 #counter variable
+for i, row in numproducts.iterrows():
+    p = {"rank": ranking, "name": row.name, "montly_sales": row["sales price"]}
+    top_sold.append(p)
+    ranking = ranking + 1
+ 
+product_names_list = [p["name"] for p in top_sold]
+product_sales_sorted = [p["monthly_sales"] for p in top_sold]
+bar_labels = [to_usd(p["monthly_sales"]) for p in told_sold]
 
 print("-----------------------")
 print("MONTH: March 2018") #To Do: get actual month/year
