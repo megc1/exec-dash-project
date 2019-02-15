@@ -1,8 +1,9 @@
 # monthly_sales.py
 # TODO: import some modules and/or packages here
-import plotly
-import plotly.graph_objs #referenced https://plot.ly/python/getting-started/#initialization-for-offline-plotting
-import pandas
+#referenced Plotly tutorial at: https://plot.ly/~notebook_demo/84/plotting-from-csv-data-csv-or-comma-del/#/
+import plotly.plotly as py
+import plotly.graph_objs as go #referenced https://plot.ly/python/getting-started/#initialization-for-offline-plotting
+import pandas as pd
 import os #referenced Prof. Rossetti's notes on os module (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/d42b75d4f536ebeca5d6b1934926cdd95aeea714/notes/python/modules/os.md)
 
 
