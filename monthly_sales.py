@@ -12,8 +12,15 @@ import os #referenced Prof. Rossetti's notes on os module (https://github.com/pr
 def to_usd(price):
     return"${0:, .2f}".format(price)
 
-months_dict = {"01": "January", "02": "February", "03": "March", "04": "April", "05": "May", "06": "June", "07": "July", "08": "August", "09": "September", "10": "October", "11": "November", "12": "December"}
+#month_lookup function based on sales-reporting exercise (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/6d21451ea2d8f992fb067d28ccb37ce37219017d/exercises/sales-reporting/pandas_explore.py)
+def month_lookup(month):
+	year_month={'01':'January','02':'February','03':'March','04':'April',
+	'05':'May','06':'June','07':'July','08':'August','09':'September','10':'October',
+	'11':'November', '12':'December'}
+	return year_month[month]
 
+get_month = input("Which month's sales data would you like to view? Please enter in MM format.")
+get_year = input("For which year? Please enter in YYYY format.")
 
 # 
 
