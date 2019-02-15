@@ -20,12 +20,23 @@ def month_lookup(month):
 	'11':'November', '12':'December'}
 	return month_MM[month]
 
+#User inputs for month and year to get file and import file
 get_month = input("Which month's sales data would you like to view? Please enter in MM format.")
 get_year = input("For which year? Please enter in YYYY format.")
 
-
+#Also based on sales-reporting exercise (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/6d21451ea2d8f992fb067d28ccb37ce37219017d/exercises/sales-reporting/pandas_explore.py)
 CSV_FILENAME = "sales-"+"get_month"+"get_year"+ ".csv"
 CSV_FILEPATH = os.path.join("data", CSV_FILENAME)
+
+#Check file validity (if it is there)
+#Used: https://www.cyberciti.biz/faq/python-file-exists-examples/
+Valid_file = os.path.isfile(CSV_FILEPATH)
+if Valid_file == False:
+    print("The file you're looking for doesn't seem to be there. Please check that a correctly titled file exists in the data folder and try again!")
+#code to process file
+else:
+    monthlydata = pd.read_csv(CSV_FILEPATH)
+#Sort products
 
 # 
 
