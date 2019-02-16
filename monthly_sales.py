@@ -56,42 +56,33 @@ print("TOTAL MONTHLY SALES: "+ "${0:,.2f}".format(SumSales))
 print("-----------------------")
 
 print("TOP SELLING PRODUCTS:")
+
 most_sales = []
 ranking = 1 #counter variable
-#Referenced same exec dash starter code to get iterrows function (https://github.com/s2t2/exec-dash-starter-py/blob/master/monthly_sales.py)
+#Referenced: exec dash starter code from Prof. Rossetti to get iterrows function (https://github.com/s2t2/exec-dash-starter-py/blob/master/monthly_sales.py)
+#Also consulted: http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.iterrows.html
+#Also consulted: https://stackoverflow.com/questions/16476924/how-to-iterate-over-rows-in-a-dataframe-in-pandas
 for i, row in prodsum_sorted.iterrows():
-    p = {"rank": ranking, "name": row.name, "montly_sales": row["sales price"]}
+    p = {"rank": ranking, "name": row.name, "monthly_sales": row["sales price"]}
     most_sales.append(p)
     ranking = ranking + 1
-for p in most_sales:
-    print(" " + str(p["rank"]) + ") " + p["name"] + ": " + "${0:,.2f}".format(p["monthly_sales"]))
+for row in most_sales:
+    print(" " + str(row["rank"]) + ") " + str(row['name']) + ": " + "${0:,.2f}".format(row["monthly_sales"]))
 
 print("-----------------------")
 
-    
+print("VISUALIZING THE DATA...")    
 
     
 
 
-# month_lookup function and CSV file lookup based on sales-reporting exercise (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/6d21451ea2d8f992fb067d28ccb37ce37219017d/exercises/sales-reporting/pandas_explore.py)
- 
 
 
 
 
-
-
-
-
-
-print("VISUALIZING THE DATA...")
 
 #To do: add bar chart of top sellers
 
-
-product_names_list = [p["name"] for p in most_sales]
-product_sales_sorted = [p["monthly_sales"] for p in most_sales]
-bar_labels = [to_usd(p["monthly_sales"]) for p in most_sales]
 
 #TODO: print bar chart
 
