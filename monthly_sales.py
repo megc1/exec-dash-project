@@ -5,11 +5,6 @@ import plotly as py
 import plotly.graph_objs as go #referenced https://plot.ly/python/getting-started/#initialization-for-offline-plotting
 import pandas as pd
 import os #referenced Prof. Rossetti's notes on os module (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/d42b75d4f536ebeca5d6b1934926cdd95aeea714/notes/python/modules/os.md)
-import calendar
-
-#used Prof. Rossetti's starter code to convert to USD format (https://github.com/s2t2/exec-dash-starter-py/commit/525446a5850d211bb78dfe1cb3ffb42ea4b3c9ad)
-def to_usd(price):
-    return "${0:, .2f}".format(price)
 
 
 #User inputs for month and year to get file and import file
@@ -22,13 +17,12 @@ year_month = get_year + get_month
 #except error type found on Stack Overflow: https://stackoverflow.com/questions/28633555/how-to-handle-filenotfounderror-when-try-except-ioerror-does-not-catch-it
 #Also based on sales-reporting exercise (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/6d21451ea2d8f992fb067d28ccb37ce37219017d/exercises/sales-reporting/pandas_explore.py)
 
-#try:
-
+#try: 
 CSV_FILENAME = "sales-"+ get_year + get_month+ ".csv"
    
 CSV_FILEPATH = os.path.join(os.path.dirname(__file__), "data", CSV_FILENAME)
     
-sales_data = pd.read_csv(CSV_FILEPATH)
+df = pd.read_csv(CSV_FILEPATH)
 
 #adapted from sales-reporting exercise
 def month_lookup(month):
@@ -40,24 +34,44 @@ def month_lookup(month):
 #Output month and top sold
 #debugging help from @crk60 (thank you Carolyn!)
 print("-----------------------")
-print("MONTH: " + month_lookup(year_month[-2:]) + ' ' + str(year_month[0:4])) #To Do: get actual month/year
+print("MONTH: " + month_lookup(year_month[-2:]) + ' ' + str(year_month[0:4])) 
 
+print("-----------------------")
+print("CRUNCHING THE DATA...")
+
+#Pandas group-by and sum function: https://stackoverflow.com/questions/39922986/pandas-group-by-and-sum/39923815
+prodsum = df.groupby(df['product'], as_index=False).sum()
+
+#http://pandas.pydata.org/pandas-docs/version/0.19/generated/pandas.DataFrame.sort.html
+prodsum_sorted = prodsum.sort_values(['sales price'], ascending=False)
+
+print("-----------------------") #To Do: calculate sales
 #http://pandas.pydata.org/pandas-docs/version/0.19/generated/pandas.DataFrame.sort.html
 #Referenced same exec dash starter code & https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.groupby.html
-total_sales = sales_data["sales price"].sum()
-count_products = sales_data.groupby(["product"]).sum()
-#http://pandas.pydata.org/pandas-docs/version/0.19/generated/pandas.DataFrame.sort.html
-count_products = count_products.sort_values("sales price", ascending=False)
-    
+#used formatting based on Prof. Rossetti's "to_usd" function
+#https://www.geeksforgeeks.org/python-pandas-dataframe-sum/
+SumSales = df['sales price'].sum()
+print("TOTAL MONTHLY SALES: "+ "${0:,.2f}".format(SumSales)) 
 
-    
-#Referenced same exec dash starter code to get iterrows function (https://github.com/s2t2/exec-dash-starter-py/blob/master/monthly_sales.py)
+print("-----------------------")
+
+print("TOP SELLING PRODUCTS:")
 most_sales = []
 ranking = 1 #counter variable
-for i, row in count_products.iterrows():
+#Referenced same exec dash starter code to get iterrows function (https://github.com/s2t2/exec-dash-starter-py/blob/master/monthly_sales.py)
+for i, row in prodsum_sorted.iterrows():
     p = {"rank": ranking, "name": row.name, "montly_sales": row["sales price"]}
     most_sales.append(p)
     ranking = ranking + 1
+for p in most_sales:
+    print(" " + str(p["rank"]) + ") " + p["name"] + ": " + "${0:,.2f}".format(p["monthly_sales"]))
+
+print("-----------------------")
+
+    
+
+    
+
 
 # month_lookup function and CSV file lookup based on sales-reporting exercise (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/6d21451ea2d8f992fb067d28ccb37ce37219017d/exercises/sales-reporting/pandas_explore.py)
  
@@ -65,19 +79,11 @@ for i, row in count_products.iterrows():
 
 
 
-print("-----------------------")
-print("CRUNCHING THE DATA...")
-
-print("-----------------------") #To Do: calculate sales
-print("TOTAL MONTHLY SALES: $12,000.71") 
 
 
-print("-----------------------")
-print("TOP SELLING PRODUCTS:")
-for p in most_sales:
-    print(" " + str(p["ranking"]) + ") " + p["name"] + ": " + to_usd(p["monthly_sales"]))
 
-print("-----------------------")
+
+
 print("VISUALIZING THE DATA...")
 
 #To do: add bar chart of top sellers
