@@ -97,10 +97,16 @@ py.offline.plot({
                 orientation = 'h',
                 text = bar_labels,
                 textposition = 'auto',
+                
                 )],
     "layout": go.Layout(
             title="Top Selling Products (" + month_lookup(year_month[-2:]) + ' ' + str(year_month[0:4]) + ")", 
-            xaxis = dict(tickformat = "$.2f"
+            xaxis = dict(tickformat = "$.2f",
+            #  xaxis = dict(
+                # title = "Sales in USD",
+            # yaxis=dict(
+                # title='Products',
+            #)
             ))
     }, auto_open=True)
 
