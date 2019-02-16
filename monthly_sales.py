@@ -1,5 +1,4 @@
 # monthly_sales.py
-# TODO: import some modules and/or packages here
 #referenced Plotly tutorial at: https://plot.ly/~notebook_demo/84/plotting-from-csv-data-csv-or-comma-del/#/
 import plotly as py
 import plotly.graph_objs as go #referenced https://plot.ly/python/getting-started/#initialization-for-offline-plotting
@@ -30,7 +29,7 @@ while True:
     else:
         break
 
-#adapted from sales-reporting exercise
+#adapted from sales-reporting exercise (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/6d21451ea2d8f992fb067d28ccb37ce37219017d/exercises/sales-reporting/pandas_explore.py))
 def month_lookup(month):
 	month_MM={'01':'January','02':'February','03':'March','04':'April',
 	'05':'May','06':'June','07':'July','08':'August','09':'September','10':'October',
@@ -80,7 +79,7 @@ print("VISUALIZING THE DATA...")
 #tolist() syntax adapted from example on Geeks for Geeks: https://www.geeksforgeeks.org/python-pandas-series-tolist/
 product_names_list=prodsum_sorted['product'].tolist()
 product_sales_sorted = prodsum_sorted['sales price']
-bar_labels = ['${:,.2f}'.format(p) for p in product_sales_sorted]
+bar_labels = ['${:,.2f}'.format(p) for p in product_sales_sorted] #just iterate through here instead of using for loop before
 
 
 #Referenced: https://plot.ly/python/getting-started/#initialization-for-offline-plotting
@@ -88,6 +87,8 @@ bar_labels = ['${:,.2f}'.format(p) for p in product_sales_sorted]
 #Referenced: https://plot.ly/python/bar-charts/
 #Referenced: https://plot.ly/python/axes/
 #Referenced: https://plot.ly/python/reference/
+#Watched video on plotly bar charts: https://www.youtube.com/watch?v=gHXy-qerHj4
+#Watched video on plotly bar charts: https://www.youtube.com/watch?v=qgsqt_TApZU
 #X-axis label formatting adapted from: https://stackoverflow.com/questions/41582305/python-plotly-format-axis-numbers-as
 py.offline.plot({
     "data": [go.Bar(
@@ -98,7 +99,7 @@ py.offline.plot({
                 textposition = 'auto',
                 )],
     "layout": go.Layout(
-            title="Top Selling Products", 
+            title="Top Selling Products (" + month_lookup(year_month[-2:]) + ' ' + str(year_month[0:4]) + ")", 
             xaxis = dict(tickformat = "$.2f"
             ))
     }, auto_open=True)
