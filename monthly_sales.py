@@ -5,12 +5,17 @@ import plotly.graph_objs as go #referenced https://plot.ly/python/getting-starte
 import pandas as pd
 import os #referenced Prof. Rossetti's notes on os module (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/d42b75d4f536ebeca5d6b1934926cdd95aeea714/notes/python/modules/os.md)
 
+print("------------------------------------------")
+print("Welcome to your executive dashboard! Let's take a look at your sales data.")
+print("------------------------------------------")
 
 #User inputs for month and year to get file and import file
 #input function found: https://docs.python.org/3/library/functions.html#input
 #try/except explanation used: https://www.ics.uci.edu/~pattis/ICS-31/lectures/tryexcept/tryexcept.txt
 #try/except to check for valid input values (used https://www.pythonforbeginners.com/error-handling/python-try-and-except)
 #except error type found here (and also somewhat organically, getting that error the first few times that I had that error running my code...): https://docs.python.org/3/library/exceptions.html 
+
+
 while True:
     try:
         get_month = input("Which month's sales data would you like to view? Please enter in MM format. ")
@@ -91,7 +96,7 @@ bar_labels = ['${:,.2f}'.format(p) for p in product_sales_sorted] #just iterate 
 #Watched video on plotly bar charts: https://www.youtube.com/watch?v=qgsqt_TApZU
 #X-axis label formatting adapted from: https://stackoverflow.com/questions/41582305/python-plotly-format-axis-numbers-as
 py.offline.plot({
-    "data": [go.Bar(
+    "data" : [go.Bar(
                 x=product_sales_sorted,
                 y=product_names_list,
                 orientation = 'h',
@@ -99,16 +104,18 @@ py.offline.plot({
                 textposition = 'auto',
                 
                 )],
-    "layout": go.Layout(
-            title="Top Selling Products (" + month_lookup(year_month[-2:]) + ' ' + str(year_month[0:4]) + ")", 
-            xaxis = dict(tickformat = "$.2f",
-            #  xaxis = dict(
-                # title = "Sales in USD",
-            # yaxis=dict(
-                # title='Products',
-            #)
-            ))
+    "layout" : go.Layout(title="Top Selling Products (" + month_lookup(year_month[-2:]) + ' ' + str(year_month[0:4]) + ")", 
+                xaxis = dict(title = "Sales in USD",
+                tickformat = "$.2f"),
+                yaxis = dict(title = "Products"),
+                margin = go.layout.Margin(l=150, pad=8
+            )
+        )
+
     }, auto_open=True)
+    
+    
+        
 
 # plotly.offline.plot({
    # "data": [go.Scatter(x=[1, 2, 3, 4], y=[4, 3, 2, 1])],
