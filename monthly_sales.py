@@ -4,6 +4,8 @@ import plotly as py
 import plotly.graph_objs as go #referenced https://plot.ly/python/getting-started/#initialization-for-offline-plotting
 import pandas as pd
 import os #referenced Prof. Rossetti's notes on os module (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/d42b75d4f536ebeca5d6b1934926cdd95aeea714/notes/python/modules/os.md)
+import operator
+import numpy as np
 
 print("------------------------------------------")
 print("Welcome to your executive dashboard! Let's take a look at your sales data.")
@@ -66,13 +68,22 @@ print("TOTAL MONTHLY SALES: "+ "${0:,.2f}".format(SumSales))
 print("-----------------------")
 
 print("TOP SELLING PRODUCTS:")
-# #Also consulted: http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.iterrows.html
-# #Also consulted: https://stackoverflow.com/questions/16476924/how-to-iterate-over-rows-in-a-dataframe-in-pandas
-#Referenced Stack Overflow to get length of object: https://stackoverflow.com/questions/518021/is-arr-len-the-preferred-way-to-get-the-length-of-an-array-in-python
-#Iloc and print output adapted from sales-reporting exercise (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/6d21451ea2d8f992fb067d28ccb37ce37219017d/exercises/sales-reporting/pandas_explore.py)
-total_count = len(prodsum_sorted)
-for i in range(total_count):
-    print(str(i+1)+') '+str(prodsum_sorted.iloc[i][0])+" "+"${0:,.2f}".format(prodsum_sorted.iloc[i][1]))
+prodnames = df["product"]
+unique_products = prodnames.unique()
+unique_products = unique_products.tolist() 
+
+most_sales = []
+#Approach adapted from  Prof. Rossetti's starter code: https://github.com/s2t2/exec-dash-starter-py/blob/master/monthly_sales_alt.py#L77
+for product in unique_products:
+    sameproduct = df[df["product"] == product]
+    product_sales = sameproduct["sales price"].sum()
+    most_sales.append({"name": product, "monthly sales": product_sales})
+most_sales = sorted(most_sales, key=operator.itemgetter("monthly sales"), reverse=True)
+
+ranking = 1 #counter
+for p in most_sales:
+    print("  " + str(ranking) + ") " + p["name"] + ": " + "${0:,.2f}".format(p["monthly sales"]))
+    ranking = ranking + 1
 
 print("-----------------------")
 
