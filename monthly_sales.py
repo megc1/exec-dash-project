@@ -108,7 +108,8 @@ py.offline.plot({
                 xaxis = dict(title = "Sales in USD",
                 tickformat = "$.2f"),
                 yaxis = dict(title = "Products"),
-                margin = go.layout.Margin(l=150, pad=8
+                #Margin adapted and slightly shrunk down from from https://github.com/s2t2/exec-dash-starter-py/blob/master/monthly_sales.py
+                margin = go.layout.Margin(l=150, pad=12
             )
         )
 
