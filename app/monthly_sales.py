@@ -10,128 +10,129 @@ def to_usd(my_price):
     return "${0:,.2f}".format(my_price)
 
 
+if __name__ == "__main__":
 
-# monthly_sales.py
-#referenced Plotly tutorial at: https://plot.ly/~notebook_demo/84/plotting-from-csv-data-csv-or-comma-del/#/
-import plotly as py
-import plotly.graph_objs as go #referenced https://plot.ly/python/getting-started/#initialization-for-offline-plotting
-import pandas as pd
-import os #referenced Prof. Rossetti's notes on os module (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/d42b75d4f536ebeca5d6b1934926cdd95aeea714/notes/python/modules/os.md)
-import operator
-import numpy as np
+    # monthly_sales.py
+    #referenced Plotly tutorial at: https://plot.ly/~notebook_demo/84/plotting-from-csv-data-csv-or-comma-del/#/
+    import plotly as py
+    import plotly.graph_objs as go #referenced https://plot.ly/python/getting-started/#initialization-for-offline-plotting
+    import pandas as pd
+    import os #referenced Prof. Rossetti's notes on os module (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/d42b75d4f536ebeca5d6b1934926cdd95aeea714/notes/python/modules/os.md)
+    import operator
+    import numpy as np
 
-print("------------------------------------------")
-print("Welcome to your executive dashboard! Let's take a look at your sales data.")
-print("------------------------------------------")
+    print("------------------------------------------")
+    print("Welcome to your executive dashboard! Let's take a look at your sales data.")
+    print("------------------------------------------")
 
-#User inputs for month and year to get file and import file
-#input function found: https://docs.python.org/3/library/functions.html#input
-#try/except explanation used: https://www.ics.uci.edu/~pattis/ICS-31/lectures/tryexcept/tryexcept.txt
-#try/except to check for valid input values (used https://www.pythonforbeginners.com/error-handling/python-try-and-except)
-#except error type found here (and also somewhat organically, getting that error the first few times that I had that error running my code...): https://docs.python.org/3/library/exceptions.html 
+    #User inputs for month and year to get file and import file
+    #input function found: https://docs.python.org/3/library/functions.html#input
+    #try/except explanation used: https://www.ics.uci.edu/~pattis/ICS-31/lectures/tryexcept/tryexcept.txt
+    #try/except to check for valid input values (used https://www.pythonforbeginners.com/error-handling/python-try-and-except)
+    #except error type found here (and also somewhat organically, getting that error the first few times that I had that error running my code...): https://docs.python.org/3/library/exceptions.html 
 
 
-while True:
-    try:
-        get_month = input("Which month's sales data would you like to view? Please enter in MM format. ")
-        get_year = input("For which year? Please enter in YYYY format. ")
-        year_month = get_year + get_month
+    while True:
+        try:
+            get_month = input("Which month's sales data would you like to view? Please enter in MM format. ")
+            get_year = input("For which year? Please enter in YYYY format. ")
+            year_month = get_year + get_month
 
-     #Also based on sales-reporting exercise (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/6d21451ea2d8f992fb067d28ccb37ce37219017d/exercises/sales-reporting/pandas_explore.py)
- 
-        CSV_FILENAME = "sales-"+ get_year + get_month+ ".csv"
-   
-        CSV_FILEPATH = os.path.join(os.path.dirname(__file__), "data", CSV_FILENAME)
+        #Also based on sales-reporting exercise (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/6d21451ea2d8f992fb067d28ccb37ce37219017d/exercises/sales-reporting/pandas_explore.py)
     
-        df = pd.read_csv(CSV_FILEPATH)
-    except FileNotFoundError:
-        print("Oops! There doesn't seem to be a file matching that name. Please check that your file is named in proper format and in a folder named data and try again!")
-    else:
-        break
+            CSV_FILENAME = "sales-"+ get_year + get_month+ ".csv"
+    
+            CSV_FILEPATH = os.path.join(os.path.dirname(__file__), "data", CSV_FILENAME)
+        
+            df = pd.read_csv(CSV_FILEPATH)
+        except FileNotFoundError:
+            print("Oops! There doesn't seem to be a file matching that name. Please check that your file is named in proper format and in a folder named data and try again!")
+        else:
+            break
 
 
 
-#Output month and top sold
-#debugging help from @crk60 (thank you Carolyn!)
-print("-----------------------")
-print("MONTH: " + month_lookup(year_month[-2:]) + ' ' + str(year_month[0:4])) 
+    #Output month and top sold
+    #debugging help from @crk60 (thank you Carolyn!)
+    print("-----------------------")
+    print("MONTH: " + month_lookup(year_month[-2:]) + ' ' + str(year_month[0:4])) 
 
-print("-----------------------")
-print("CRUNCHING THE DATA...")
+    print("-----------------------")
+    print("CRUNCHING THE DATA...")
 
-#Pandas group-by and sum function: https://stackoverflow.com/questions/39922986/pandas-group-by-and-sum/39923815
-prodsum = df.groupby(df['product'], as_index=False).sum()
+    #Pandas group-by and sum function: https://stackoverflow.com/questions/39922986/pandas-group-by-and-sum/39923815
+    prodsum = df.groupby(df['product'], as_index=False).sum()
 
-#http://pandas.pydata.org/pandas-docs/version/0.19/generated/pandas.DataFrame.sort.html
-prodsum_sorted = prodsum.sort_values(['sales price'], ascending=False)
+    #http://pandas.pydata.org/pandas-docs/version/0.19/generated/pandas.DataFrame.sort.html
+    prodsum_sorted = prodsum.sort_values(['sales price'], ascending=False)
 
-print("-----------------------") #To Do: calculate sales
-#http://pandas.pydata.org/pandas-docs/version/0.19/generated/pandas.DataFrame.sort.html
-#Referenced same exec dash starter code & https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.groupby.html
-#used formatting based on Prof. Rossetti's "to_usd" function
-#https://www.geeksforgeeks.org/python-pandas-dataframe-sum/
-SumSales = df['sales price'].sum()
-print("TOTAL MONTHLY SALES: "+ "${0:,.2f}".format(SumSales)) 
+    print("-----------------------") #To Do: calculate sales
+    #http://pandas.pydata.org/pandas-docs/version/0.19/generated/pandas.DataFrame.sort.html
+    #Referenced same exec dash starter code & https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.groupby.html
+    #used formatting based on Prof. Rossetti's "to_usd" function
+    #https://www.geeksforgeeks.org/python-pandas-dataframe-sum/
+    SumSales = df['sales price'].sum()
+    print("TOTAL MONTHLY SALES: "+ "${0:,.2f}".format(SumSales)) 
 
-print("-----------------------")
+    print("-----------------------")
 
-print("TOP SELLING PRODUCTS:")
-prodnames = df["product"]
-unique_products = prodnames.unique()
-unique_products = unique_products.tolist() 
+    print("TOP SELLING PRODUCTS:")
+    prodnames = df["product"]
+    unique_products = prodnames.unique()
+    unique_products = unique_products.tolist() 
 
-most_sales = []
-#Approach adapted from  Prof. Rossetti's starter code: https://github.com/s2t2/exec-dash-starter-py/blob/master/monthly_sales_alt.py#L77
-for product in unique_products:
-    sameproduct = df[df["product"] == product]
-    product_sales = sameproduct["sales price"].sum()
-    most_sales.append({"name": product, "monthly sales": product_sales})
-most_sales = sorted(most_sales, key=operator.itemgetter("monthly sales"), reverse=True)
+    most_sales = []
+    #Approach adapted from  Prof. Rossetti's starter code: https://github.com/s2t2/exec-dash-starter-py/blob/master/monthly_sales_alt.py#L77
+    for product in unique_products:
+        sameproduct = df[df["product"] == product]
+        product_sales = sameproduct["sales price"].sum()
+        most_sales.append({"name": product, "monthly sales": product_sales})
+    most_sales = sorted(most_sales, key=operator.itemgetter("monthly sales"), reverse=True)
 
-ranking = 1 #counter
-for p in most_sales:
-    print("  " + str(ranking) + ") " + p["name"] + ": " + "${0:,.2f}".format(p["monthly sales"]))
-    ranking = ranking + 1
+    ranking = 1 #counter
+    for p in most_sales:
+        print("  " + str(ranking) + ") " + p["name"] + ": " + "${0:,.2f}".format(p["monthly sales"]))
+        ranking = ranking + 1
 
-print("-----------------------")
+    print("-----------------------")
 
-print("VISUALIZING THE DATA...")    
-#Referenced: https://plot.ly/python/horizontal-bar-charts/
-
-
-#tolist() function explanation used: https://stackoverflow.com/questions/23748995/pandas-dataframe-to-list
-#tolist() syntax adapted from example on Geeks for Geeks: https://www.geeksforgeeks.org/python-pandas-series-tolist/
-product_names_list=prodsum_sorted['product'].tolist()
-product_sales_sorted = prodsum_sorted['sales price']
-bar_labels = ['${:,.2f}'.format(p) for p in product_sales_sorted] #just iterate through here instead of using for loop before
+    print("VISUALIZING THE DATA...")    
+    #Referenced: https://plot.ly/python/horizontal-bar-charts/
 
 
-#Referenced: https://plot.ly/python/getting-started/#initialization-for-offline-plotting
-#Referenced: https://plot.ly/python/user-guide/
-#Referenced: https://plot.ly/python/bar-charts/
-#Referenced: https://plot.ly/python/axes/
-#Referenced: https://plot.ly/python/reference/
-#Watched video on plotly bar charts: https://www.youtube.com/watch?v=gHXy-qerHj4
-#Watched video on plotly bar charts: https://www.youtube.com/watch?v=qgsqt_TApZU
-#X-axis label formatting adapted from: https://stackoverflow.com/questions/41582305/python-plotly-format-axis-numbers-as
-py.offline.plot({
-    "data" : [go.Bar(
-                x=product_sales_sorted,
-                y=product_names_list,
-                orientation = 'h',
-                text = bar_labels,
-                textposition = 'auto',
-                
-                )],
-    "layout" : go.Layout(title="Top Selling Products (" + month_lookup(year_month[-2:]) + ' ' + str(year_month[0:4]) + ")", 
-                xaxis = dict(title = "Sales in USD",
-                tickformat = "$.2f"),
-                yaxis = dict(title = "Products"),
-                #Margin adapted and slightly shrunk down from from https://github.com/s2t2/exec-dash-starter-py/blob/master/monthly_sales.py
-                margin = go.layout.Margin(l=150, pad=12
+    #tolist() function explanation used: https://stackoverflow.com/questions/23748995/pandas-dataframe-to-list
+    #tolist() syntax adapted from example on Geeks for Geeks: https://www.geeksforgeeks.org/python-pandas-series-tolist/
+    product_names_list=prodsum_sorted['product'].tolist()
+    product_sales_sorted = prodsum_sorted['sales price']
+    bar_labels = ['${:,.2f}'.format(p) for p in product_sales_sorted] #just iterate through here instead of using for loop before
+
+
+    #Referenced: https://plot.ly/python/getting-started/#initialization-for-offline-plotting
+    #Referenced: https://plot.ly/python/user-guide/
+    #Referenced: https://plot.ly/python/bar-charts/
+    #Referenced: https://plot.ly/python/axes/
+    #Referenced: https://plot.ly/python/reference/
+    #Watched video on plotly bar charts: https://www.youtube.com/watch?v=gHXy-qerHj4
+    #Watched video on plotly bar charts: https://www.youtube.com/watch?v=qgsqt_TApZU
+    #X-axis label formatting adapted from: https://stackoverflow.com/questions/41582305/python-plotly-format-axis-numbers-as
+    py.offline.plot({
+        "data" : [go.Bar(
+                    x=product_sales_sorted,
+                    y=product_names_list,
+                    orientation = 'h',
+                    text = bar_labels,
+                    textposition = 'auto',
+                    
+                    )],
+        "layout" : go.Layout(title="Top Selling Products (" + month_lookup(year_month[-2:]) + ' ' + str(year_month[0:4]) + ")", 
+                    xaxis = dict(title = "Sales in USD",
+                    tickformat = "$.2f"),
+                    yaxis = dict(title = "Products"),
+                    #Margin adapted and slightly shrunk down from from https://github.com/s2t2/exec-dash-starter-py/blob/master/monthly_sales.py
+                    margin = go.layout.Margin(l=150, pad=12
+                )
             )
-        )
 
-    }, auto_open=True)
+        }, auto_open=True)
 
 
