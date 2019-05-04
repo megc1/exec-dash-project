@@ -2,6 +2,7 @@ import os
 import pytest
 
 from app.monthly_sales import to_usd
+#Reference: Prof. Rossetti's example solution
 
 def test_to_usd():
     #test format
