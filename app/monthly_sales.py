@@ -57,13 +57,8 @@ if __name__ == "__main__":
     
     top_sellers = get_top_sellers(df)
     
-    SumSales = df['sales price'].sum()
+    sum_sales = df['sales price'].sum()
     
-    #Pandas group-by and sum function: https://stackoverflow.com/questions/39922986/pandas-group-by-and-sum/39923815
-    prodsum = df.groupby(df['product'], as_index=False).sum()
-    #http://pandas.pydata.org/pandas-docs/version/0.19/generated/pandas.DataFrame.sort.html
-    prodsum= prodsum.sort_values(['sales price'], ascending=False)
-   
     ranking = 1 
     for p in top_sellers:
         print("  " + str(ranking) + ") " + p["name"] + ": " + "${0:,.2f}".format(p["monthly sales"]))
@@ -80,7 +75,7 @@ if __name__ == "__main__":
     #Referenced same exec dash starter code & https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.groupby.html
     #used formatting based on Prof. Rossetti's "to_usd" function
     #https://www.geeksforgeeks.org/python-pandas-dataframe-sum/
-    print("TOTAL MONTHLY SALES: "+ "${0:,.2f}".format(SumSales)) 
+    print("TOTAL MONTHLY SALES: "+ "${0:,.2f}".format(sum_sales)) 
     print("-----------------------")
     print("TOP SELLING PRODUCTS:")
     print("-----------------------")
@@ -88,9 +83,12 @@ if __name__ == "__main__":
     #Referenced: https://plot.ly/python/horizontal-bar-charts/
     #tolist() function explanation used: https://stackoverflow.com/questions/23748995/pandas-dataframe-to-list
     #tolist() syntax adapted from example on Geeks for Geeks: https://www.geeksforgeeks.org/python-pandas-series-tolist/
-    product_names_list=[a["name"] for a in top_sellers]
-    product_sales_sorted = [a["monthly_sales"] for a in top_sellers]
-    bar_labels = [to_usd(a["monthly_sales"]) for a in top_sellers] 
+    product_names_list=[]
+    product_sales_sorted = []
+    for t in top_sellers:
+        product_names_list.append(t["name"])
+        product_sales_sorted.append(t["monthly sales"])   
+    bar_labels = [to_usd(a["monthly sales"]) for a in top_sellers] 
     #Referenced: https://plot.ly/python/getting-started/#initialization-for-offline-plotting
     #Referenced: https://plot.ly/python/user-guide/
     #Referenced: https://plot.ly/python/bar-charts/
@@ -105,8 +103,7 @@ if __name__ == "__main__":
                     y=product_names_list,
                     orientation = 'h',
                     text = bar_labels,
-                    textposition = 'auto',
-                    
+                    textposition = 'auto',                   
                     )],
         "layout" : go.Layout(title="Top Selling Products (" + month_lookup(year_month[-2:]) + ' ' + str(year_month[0:4]) + ")", 
                     xaxis = dict(title = "Sales in USD",
