@@ -1,6 +1,6 @@
 import os
 import pytest
-import pandas
+import pandas as pd
 
 from app.monthly_sales import to_usd, get_top_sellers
 #Reference: Prof. Rossetti's example solution
@@ -18,7 +18,7 @@ def test_to_usd():
 def test_get_top_sellers():
     CSV_FILENAME = "sales-201904.csv"
     CSV_FILEPATH = os.path.join(os.path.dirname(__file__), "test_data", CSV_FILENAME)
-    df = pandas.read_csv(CSV_FILEPATH)
+    df = pd.read_csv(CSV_FILEPATH)
     results = get_top_sellers(df)
     expected_result = [
         {'name': 'Button-Down Shirt', 'monthly sales': 5008.849999999999},
