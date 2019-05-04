@@ -1,8 +1,4 @@
 #referenced Plotly tutorial at: https://plot.ly/~notebook_demo/84/plotting-from-csv-data-csv-or-comma-del/#/
-import plotly as py
-import plotly.graph_objs as go #referenced https://plot.ly/python/getting-started/#initialization-for-offline-plotting
-import pandas as pd
-import os #referenced Prof. Rossetti's notes on os module (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/d42b75d4f536ebeca5d6b1934926cdd95aeea714/notes/python/modules/os.md)
 import operator
 #adapted from sales-reporting exercise (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/6d21451ea2d8f992fb067d28ccb37ce37219017d/exercises/sales-reporting/pandas_explore.py))
 def month_lookup(month):
@@ -29,6 +25,10 @@ def get_top_sellers(data):
     return most_sales
 
 if __name__ == "__main__":
+    import plotly as py
+    import plotly.graph_objs as go #referenced https://plot.ly/python/getting-started/#initialization-for-offline-plotting
+    import os #referenced Prof. Rossetti's notes on os module (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/d42b75d4f536ebeca5d6b1934926cdd95aeea714/notes/python/modules/os.md)
+    import pandas as pd
     print("------------------------------------------")
     print("Welcome to your executive dashboard! Let's take a look at your sales data.")
     print("------------------------------------------")
