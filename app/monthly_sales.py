@@ -5,7 +5,9 @@ def month_lookup(month):
 	'11':'November', '12':'December'}
 	return month_MM[month]
 
-
+#Basic Challenge: Formatting Prices
+def to_usd(my_price):
+    return "${0:,.2f}".format(my_price)
 
 
 
