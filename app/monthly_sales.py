@@ -1,3 +1,16 @@
+#adapted from sales-reporting exercise (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/6d21451ea2d8f992fb067d28ccb37ce37219017d/exercises/sales-reporting/pandas_explore.py))
+def month_lookup(month):
+	month_MM={'01':'January','02':'February','03':'March','04':'April',
+	'05':'May','06':'June','07':'July','08':'August','09':'September','10':'October',
+	'11':'November', '12':'December'}
+	return month_MM[month]
+
+#Basic Challenge: Formatting Prices
+def to_usd(my_price):
+    return "${0:,.2f}".format(my_price)
+
+
+
 # monthly_sales.py
 #referenced Plotly tutorial at: https://plot.ly/~notebook_demo/84/plotting-from-csv-data-csv-or-comma-del/#/
 import plotly as py
@@ -36,12 +49,7 @@ while True:
     else:
         break
 
-#adapted from sales-reporting exercise (https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/6d21451ea2d8f992fb067d28ccb37ce37219017d/exercises/sales-reporting/pandas_explore.py))
-def month_lookup(month):
-	month_MM={'01':'January','02':'February','03':'March','04':'April',
-	'05':'May','06':'June','07':'July','08':'August','09':'September','10':'October',
-	'11':'November', '12':'December'}
-	return month_MM[month]
+
 
 #Output month and top sold
 #debugging help from @crk60 (thank you Carolyn!)
@@ -125,13 +133,5 @@ py.offline.plot({
         )
 
     }, auto_open=True)
-    
-    
-        
-
-# plotly.offline.plot({
-   # "data": [go.Scatter(x=[1, 2, 3, 4], y=[4, 3, 2, 1])],
-   # "layout": go.Layout(title="hello world")
-# }, auto_open=True)
 
 
